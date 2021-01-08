@@ -1,21 +1,7 @@
 #!/bin/bash
-#if [[ -f * ]] || echo "There's a snake in my boot!"
-
-dir_to_search=~/Downloads
-
-log_location=~/Documents/file_organiser_log.txt
-
-audio_directory=~/Music
-documents_directory=~/Documents
-images_directory=~/Pictures
-video_directory=~/Videos
-unrecognised_directory=${dir_to_search}"/unrecognised"
-
-#alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 
 check_for_items(){
-	if [ -z "$(ls -A ${dir_to_search})" ]; then 
+	if [ -z "$(ls -A "$dir_to_search")" ]; then
 		#-a isn't used to not trigger '.' and '..'
 		echo "Target directory $dir_to_search is empty."
 		echo "Exiting..."
@@ -29,88 +15,129 @@ check_for_items(){
 check_for_items
 
 
-move_to_dir(){
-	echo "Yes?"
-	case $1 in
-		*.flac)
-			echo "$1 is a flac file and will be moved to $audio_directory."
-			break ;;
-		*.mp3)
-			echo "$1 is an mp3 file and will be moved to $audio_directory."
-			break ;;
-		*.m4a)
-			echo "$1 is an m4a file and will be moved to $audio_directory."
-			break ;;
-		*.ogg)
-			echo "$1 is an ogg file and will be moved to $audio_directory."
-			break ;;
-		*.wav)
-			echo "$1 is a wav file and will be moved to $audio_directory."
-			break ;;
+dir_to_search="$HOME/Downloads/Test/Designed to fail"
+
+log_location="$HOME/Documents/file_organiser_log.txt"
+
+audio_directory="$HOME/Music"
+documents_directory="$HOME/Documents"
+images_directory="$HOME/Pictures"
+video_directory="$HOME/Videos"
+unsorted_directory=${dir_to_search}"/Unsorted"
+
+
+file_name_only (){
+
+}
+
+move_to_dir () {
+	echo
+    	item="$1"
+	item_type=$(file "$1")
+	case $item_type in
+		*FLAC* | *flac*)
+			echo "$item was identified as a flac file and will be moved to $audio_directory."
+			;;
+		*Ogg* | *ogg*)
+			echo "$item was identified as an ogg file and will be moved to $audio_directory."
+			;;
+		*Vorbis* | *vorbis*)
+			echo "$item was identified as a vorbis audio file and will be moved to $audio_directory."
+			;;
+		*WAVE* | *wave* | *wav*)
+			echo "$item was identified as a wav audio file and will be moved to $audio_directory."
+			;;
+		*Audio* | *audio*)
+			echo "$item fell under the catch-all 'audio' category and will be moved to $audio_directory. This is probably not an incorrect recognition, but verifying would be recommended."
+                        ;;
+ 
 		#############################################################################
-		*.doc)
-			echo "$1 is a doc file and will be moved to $documents_directory."
-			break ;;
-		*.docx)
-			echo "$1 is a docx file and will be moved to $documents_directory."
-			break ;;
-		*.key)
-			echo "$1 is a keynote file and will be moved to $documents_directory."
-			break ;;
-		*.pages)
-			echo "$1 is a pages file and will be moved to $documents_directory."
-			break ;;
-		*.PDF)
-			echo "$1 is a PDF file and will be moved to $documents_directory."
-			break ;;
-		*.pdf)
-			echo "$1 is a pdf file and will be moved to $documents_directory."
-			break ;;
-		*.ppt)
-			echo "$1 is a ppt file and will be moved to $documents_directory."
-			break ;;
-		*pptx)		
-			echo "$1 is a pptx file and will be moved to $documents_directory."
-			break ;;
-		*.rtf)
-			echo "$1 is a rtf file and will be moved to $documents_directory."
-			break ;;
-		*.txt)
-			echo "$1 is a txt file and will be moved to $documents_directory."
-			break ;;
-		#############################################################################	
-		*.jpg)
-			echo "$1 is a jpg file and will be moved to $images_directory."
-			break ;;
-		*.jpeg)
-			echo "$1 is a jpeg file and will be moved to $images_directory."
-			break ;;
-		*.png)
-			echo "$1 is a png file and will be moved to $images_directory."
-			break ;;
-		*.webp)
-			echo "$1 is a webp file and will be moved to $images_directory."
-			break ;;
+		*ASCII*)
+			echo "$item was identified as a plain text file and will be moved to $documents_directory."
+			;;
+		*Composite\ Document*)
+			echo "$item was identified as a possibly a doc, ppt or xls file and will be moved to $documents_directory"
+			;;
+		*Microsoft\ Excel*)
+			echo "$item was identified as Excel file and will be moved to $documents_directory."
+			;;
+		*Microsoft\ PowerPoint*)
+			echo "$item was identified as a PowerPoint file and will be moved to $documents_directory."
+			;;
+		*Microsoft\ Word*)
+			echo "$item was identified as a Word document file and will be moved to $documents_directory."
+			;;
+		*OpenDocument*)
+			echo "$item was identified as an Open Document file and will be moved to $documents_directory."
+			;;
+		*PDF* | *pdf*)
+			echo "$item was identified as a pdf file and will be moved to $documents_directory."
+			;;
+		*Rich\ Text*)
+			echo "$item was identified as a rich text file and will be moved to $documents_directory"
+			;;
+		*Unicode\ text*)
+			echo "$item was identified as a plain text file and will be moved to $documents_directory."
+			;;
+		*document* | *Document*)
+			echo "$item fell under the catch-all 'documents' category and will be moved to $documents_directory. This is probably not an incorrect recognition, but verifying would be recommended."
+			;;
 		#############################################################################
-		*.avi)
-			echo "$1 is an avi file and will be moved to $video_directory."
-			break ;;
-		*.mkv)
-			echo "$1 is an mkv file and will be moved to $video_directory."
-			break ;;
-		*.mp4)
-			echo "$1 is an mp4 file and will be moved to $video_directory."
-			break ;;
+		*bitmap*)
+			echo "$item was identified as a bmp file and will be moved to $images_directory."
+			;;
+		*GIF* | *gif*)
+			echo "$item was identified as a gif file and will be moved to $images_directory."
+			;;
+		*JPEG* | *jpeg*)
+			echo "$item was identified as a jpg or a jpeg file and will be moved to $images_directory."
+			;;
+		*PNG*)
+			echo "$item was identified as a png file and will be moved to $images_directory."
+			;;
+		*image* | *Image*)
+			echo "$item fell under the catch-all 'images' category and will be moved to $images_directory. This is probably not an incorrect recognition, but verifying would be recommended."
+			;;	
+		#############################################################################
+		*AVI* | *avi*)
+			echo "$item was identified as an avi file and will be moved to $video_directory."
+			;;
+		*Matroska* | *matroska*)
+			echo "$item was identified as a mkv file and will be moved to $video_directory."
+			;;
+		*MP4* | *mp4*)
+			echo "$item was identified as an mp4 file and will be moved to $video_directory."
+			;;
+		*WebM* | *webm*)
+			echo "$item was identified as a webm file and will be moved to $video_directory."
+			;;
+		*video* | *VIDEO*)
+			echo "$item fell under the all-catch 'videos' category and will be moved to $video_directory. This is probably not an incorrect recognition, but verifying would be recommended."
+			;;		
+		#############################################################################
+		*tar*)
+			echo "$item was identified as a compressed file. It will not be unpacked and will be moved to $unsorted_directory"
+			#mv "$item" "$unsorted_directory" || mkdir "$unsorted_directory" && mv "$item" "$unsorted_directory"
+			;;
+		*Zip* | *zip*)
+			echo "$item was identified as a zipped file. It will not be unpacked and will be moved to $unsorted_directory."
+			#mv "$item" "$unsorted_directory" || mkdir "$unsorted_directory" && mv "$item" "$unsorted_directory"
+			;;
 		#############################################################################
 		*)
-			echo "$1 was not recognised and will be placed in $unrecognised_directory."
-			#mv $1 $unrecognised_directory || mkdir $unrecognised_directory && mv $item $unrecognised_directory
-			break ;;
+			echo "$item was not recognised and will be placed in $unsorted_directory."
+			#mv "$item" "$unsorted_directory" || mkdir "$unsorted_directory" && mv "$item" "$unsorted_directory"
+			;;
 	esac
 }
-echo "Just before loop"
-while IFS= read -r -d '' file; do
-	echo "Loop time"
-	move_2_dir "$file"
-done < <(find . -type f -name '*.mp3' -print0)
-#find $dir_to_search -maxdepth 1 -path $unrecognised_directory -prune -type f -exec move_2_dir {} \;
+
+
+find "$dir_to_search" -maxdepth 1 -type f -exec echo {} > "$dir_to_search/auto_organiser_temp.txt" \;
+
+while IFS= read -r line
+do
+  move_to_dir "$line"
+done < "$dir_to_search/auto_organiser_temp.txt"
+
+echo $DATE
+#rm "${dir_to_search}"/auto_organiser_temp.txt""
