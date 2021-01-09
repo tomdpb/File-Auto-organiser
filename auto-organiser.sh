@@ -1,16 +1,12 @@
 #!/bin/bash
 
-dir_to_search="$HOME/Downloads/Test"
+dir_to_search="$HOME/Downloads"
 
 
 check_for_items () {
 	if [ -z "$(find "$dir_to_search" -maxdepth 1 -type f)" ]; then
 		#-a isn't used to not trigger '.' and '..'
-		echo "Target directory $dir_to_search is empty."
-		echo "Exiting..."
 		exit
-	else
-		echo "Something's in the target directory $dir_to_search!"
 	fi
 }
 
@@ -31,11 +27,11 @@ current_date=`date +"%Y-%m-%d %T"`
 echo "Program called at $current_date" >> $log_file
 
 #the following variables determine where to place found items
-audio_directory="$HOME/Downloads/Test/Music" #"$HOME/Music"
-compressed_directory="$HOME/Downloads/Test/Compressed Files" #"$dir_to_search/Compressed Files"
-documents_directory="$HOME/Downloads/Test/Docs" #"$HOME/Documents"
-images_directory="$HOME/Downloads/Test/Images" #"$HOME/Pictures"
-video_directory="$HOME/Downloads/Test/Videos" #"$HOME/Videos"
+audio_directory="$HOME/Music"
+compressed_directory="$dir_to_search/Compressed Files"
+documents_directory="$HOME/Documents"
+images_directory="$HOME/Pictures"
+video_directory="$HOME/Videos"
 unsorted_directory="$dir_to_search/Unsorted"
 
 
