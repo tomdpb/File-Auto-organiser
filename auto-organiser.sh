@@ -31,7 +31,7 @@ done
 
 
 check_for_items () {
-	#checks to see if ther are any files in the specified directory
+	#checks to see if there are any files in the specified directory
 	#exits if there are none
 	if [ -z "$(find "$dir_to_search" -maxdepth 1 -type f)" ]; then
 		exit
