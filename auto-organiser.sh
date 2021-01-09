@@ -1,7 +1,37 @@
 #!/bin/bash
 
+display_help () {
+	echo "This is a program which will automatically organise files from one directory to another."
+	echo "Any files in subdirectories will remain where they are." 
+	echo "Options are:"
+	echo "-d	Displays searching directory and exits."
+	echo "-h	Displays this help text and exits."
+	echo "-help	Displays this help text and exits."
+}
+
+
 dir_to_search="$HOME/Downloads"
 #this is the directory where the script will be applied
+
+while getopts ":h" option; do
+        case $option in
+		d)
+			echo "$dir_to_search"
+			exit;;
+		h)
+                        display_help
+                        exit;;
+                help)
+                         display_help
+                         exit;;
+                 \?)
+                         echo "Error: invalid option."
+			 display_help
+                         echo "Exiting..."
+                         exit;;
+         esac
+done
+
 
 
 check_for_items () {
@@ -202,14 +232,13 @@ sorting_files () {
 	esac
 }
 
+temp_file="/tmp/auto_organiser_temp.txt"
 
-find "$dir_to_search" -maxdepth 1 -type f ! -name "auto_organiser_temp.txt" -exec echo {} > "$dir_to_search/auto_organiser_temp.txt" \;
-#find "$dir_to_search" -maxdepth 1 -type f -print "$dir_to_search/auto_organiser_temp.txt"
+find "$dir_to_search" -maxdepth 1 -type f -exec echo {} > "$temp_file" \;
 
 while IFS= read -r line
 do
-  sorting_files "$line"
-done < "$dir_to_search/auto_organiser_temp.txt"
+	sorting_files "$line"
+done < "$temp_file"
 
-echo $DATE
-rm "$dir_to_search"/auto_organiser_temp.txt""
+rm "$temp_file"
