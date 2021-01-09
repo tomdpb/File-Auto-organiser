@@ -32,7 +32,6 @@ done
 
 check_for_items () {
 	if [ -z "$(find "$dir_to_search" -maxdepth 1 -type f)" ]; then
-		#-a isn't used to not trigger '.' and '..'
 		exit
 	fi
 }
@@ -115,7 +114,6 @@ sorting_files () {
 			echo "'$item' fell under the catch-all 'audio' category and was moved to $audio_directory." >> $log_file
             move_to_dir "$1" "$audio_directory"
             ;;
-
 		#############################################################################
 		*ASCII*)
 			echo "'$item' was identified as a plain text file and was moved to $documents_directory." >> $log_file
