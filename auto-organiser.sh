@@ -6,14 +6,13 @@ display_help () {
 	echo "Options are:"
 	echo "-d	Displays searching directory and exits."
 	echo "-h	Displays this help text and exits."
-	echo "-help	Displays this help text and exits."
 }
 
 
 dir_to_search="$HOME/Downloads"
 #this is the directory where the script will be applied
 
-while getopts ":h" option; do
+while getopts "dh" option; do
         case $option in
 		d)
 			echo "$dir_to_search"
@@ -21,10 +20,7 @@ while getopts ":h" option; do
 		h)
                         display_help
                         exit;;
-                help)
-                         display_help
-                         exit;;
-                 \?)
+                \?)
                          echo "Error: invalid option."
 			 display_help
                          echo "Exiting..."
