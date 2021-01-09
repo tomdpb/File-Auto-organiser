@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dir_to_search="$HOME/Downloads"
+#this is the directory where the script will be applied
 
 
 check_for_items () {
@@ -63,7 +64,8 @@ move_to_dir () {
 
 sorting_files () {
 	#reads a file, extracts information with the 'file' command, classifies it, and moves it accordingly.
-	#if one wishes to add another file type, only add the unique part of the returned text and make sure to have asterisks around it. In doubt, check the examples given
+	#if one wishes to add another file type, only add the unique part of the returned text and make sure to have asterisks around it 
+	#f in doubt, check the examples given
 	item="$(file_name_only "$1")"
 	item_type=$(information_of_file_only "$1")
 	case $item_type in
