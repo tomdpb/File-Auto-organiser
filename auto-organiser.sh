@@ -2,7 +2,7 @@
 
 display_help () {
 	echo "This is a program which will automatically organise files from one directory to another."
-	echo "Any files in subdirectories will remain where they are." 
+	echo "Any files in subdirectories will remain where they are."
 	echo "Options are:"
 	echo "-d	Displays searching directory and exits."
 	echo "-h	Displays this help text and exits."
@@ -74,7 +74,7 @@ file_name_only () {
 
 information_of_file_only () {
 	#removes the name of the file so it doesn't interfere when calling 'file' command
-	#if a video file is called audio_file it ccould be falsely classified as audio
+	#if a file is called audio_file it could be incorrectly classified as audio, for example
 	prefix="$1"
 	information=$(file "$1")
 	foo="${information#"$prefix"}"
@@ -91,7 +91,7 @@ move_to_dir () {
 
 sorting_files () {
 	#reads a file, extracts information with the 'file' command, classifies it, and moves it accordingly.
-	#if one wishes to add another file type, only add the unique part of the returned text and make sure to have asterisks around it 
+	#if one wishes to add another file type, only add the unique part of the returned text and make sure to have asterisks around it
 	#if in doubt, check the examples given
 	item="$(file_name_only "$1")"
 	item_type=$(information_of_file_only "$1")
