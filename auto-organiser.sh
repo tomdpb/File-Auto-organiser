@@ -238,3 +238,5 @@ do
 done < "$temp_file"
 
 rm "$temp_file"
+
+exit 0
