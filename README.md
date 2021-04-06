@@ -13,4 +13,4 @@ Ex:
 ## For UNIX Systems
 By modifying the code and adding a loop, this script can be used as a daemon using the `check_for_items` function to activate the program's main function. My recommendation, however, is to simply schedule it with a *cron job* so that it runs at whatever time interval the user wishes. That way, despite it being the functionality of the code, files don't get moved immediately and possibly accidentally.
 
-This task scheduling can be done quickly and easily by typing `crontab -e` in the terminal and following the instructions provided by *crontab* to call the *auto_organiser.sh* script.
+This task scheduling can be done quickly and easily by typing `crontab -e` in the terminal and following the instructions provided by *crontab* to call the *auto-organiser.sh* script.
