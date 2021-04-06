@@ -1,5 +1,24 @@
 #!/bin/bash
 
+dir_to_search="$HOME/Downloads"
+#this is the directory where the script will be applied
+
+#the following variables determine where to place found items
+audio_directory="$HOME/Music"
+compressed_directory="$dir_to_search/Compressed_Files"
+documents_directory="$HOME/Documents"
+images_directory="$HOME/Pictures"
+video_directory="$HOME/Videos"
+unsorted_directory="$dir_to_search/Unsorted"
+
+log_file="$documents_directory/file_organiser_log.log"
+#where the log of changes is placed
+touch "$log_file"
+
+current_date=`date +"%Y-%m-%d %T"`
+echo "Program called at $current_date" >> $log_file
+
+
 display_help () {
 	echo "This is a program which will automatically organise files from one directory to another."
 	echo "Any files in subdirectories will remain where they are."
@@ -8,23 +27,19 @@ display_help () {
 	echo "-h	Displays this help text and exits."
 }
 
-
-dir_to_search="$HOME/Downloads"
-#this is the directory where the script will be applied
-
 while getopts "dh" option; do
         case $option in
 		d)
 			echo "$dir_to_search"
-			exit;;
+			exit 0;;
 		h)
                         display_help
-                        exit;;
+                        exit 0;;
                 \?)
                          echo "Error: invalid option."
 			 display_help
                          echo "Exiting..."
-                         exit;;
+                         exit 1;;
          esac
 done
 
@@ -34,7 +49,7 @@ check_for_items () {
 	#checks to see if there are any files in the specified directory
 	#exits if there are none
 	if [ -z "$(find "$dir_to_search" -maxdepth 1 -type f)" ]; then
-		exit
+		exit 0
 	fi
 }
 
@@ -46,22 +61,6 @@ check_for_items
 #If no files are found, there's no point in running the rest of this code.
 #The function checks and makes sure none of this runs for no reason.
 ###############################################################################
-
-log_file="$HOME/Documents/file_organiser_log.log"
-#where the log of changes is placed
-touch "$log_file"
-
-current_date=`date +"%Y-%m-%d %T"`
-echo "Program called at $current_date" >> $log_file
-
-#the following variables determine where to place found items
-audio_directory="$HOME/Music"
-compressed_directory="$dir_to_search/Compressed Files"
-documents_directory="$HOME/Documents"
-images_directory="$HOME/Pictures"
-video_directory="$HOME/Videos"
-unsorted_directory="$dir_to_search/Unsorted"
-
 
 
 file_name_only () {
